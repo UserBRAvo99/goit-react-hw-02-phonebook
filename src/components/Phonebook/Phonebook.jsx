@@ -5,6 +5,8 @@ import Filter from "components/Filter/Filter";
 import FormPhonebook from "components/FormPhonebook/FormPhonebook";
 import Contacts from "components/Contacts/Contacts";
 
+import style from './phonebook.module.scss'
+
 
 class Phonebook extends React.Component {
     state = {
@@ -33,12 +35,6 @@ class Phonebook extends React.Component {
             return
         }
 
-        // this.state.contacts.find(elem => {
-        //     if (elem.name === this.state.name) {
-        //         alert(`${this.state.name} is already in contacts`);
-        //         this.reset();
-        //     } return
-        // });
 
         const { name, number } = this.state
         this.state.contacts.unshift({name: name ,number: number, id: shortid()})
@@ -64,11 +60,11 @@ class Phonebook extends React.Component {
         const contactsData = this.state.contacts
         const filterData = this.state.filter
         return (
-            <div>
-                <h2>Phonebook</h2>
+            <div className={style.wrapper}>
+                <h2 className={style.title}>Phonebook</h2>
                 <FormPhonebook submit={this.formOnSubmit}  name={this.state.name} number={this.state.number} change={this.inputChange}/>
                 <div>
-                    <h2>Contacts</h2>
+                    <h2 className={style.title}>Contacts</h2>
                     <Filter filter={this.inputSrc} />
                     <Contacts contacts={contactsData} filter={filterData} deleteContact={this.deleteContact} />
                 </div>

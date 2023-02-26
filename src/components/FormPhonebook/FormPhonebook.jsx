@@ -1,13 +1,15 @@
 import React from "react";
 
+import style from './formPhonebook.module.scss'
+
 function FormPhonebook({submit, name, number, change}) {
 
     return (
-        <div>
-            <form action="#" onSubmit={submit}>
-                <label>
-                            Name
-                    <input
+        <div className={style.box}>
+            <form action="#" onSubmit={submit} className={style.form}>
+                <label className={style.label}>
+                    <p  className={style.title}>Name</p>
+                    <input className={style.input}
                         type="text"
                         name="name"
                         pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
@@ -15,11 +17,12 @@ function FormPhonebook({submit, name, number, change}) {
                         required
                         value={name}
                         onChange={change}
+                        placeholder="Your name"
                     />
                 </label>
-                <label>
-                    Number
-                    <input
+                <label className={style.label}>
+                    <p  className={style.title}>Number</p>
+                    <input className={style.input}
                         type="tel"
                         name="number"
                         pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
@@ -27,9 +30,10 @@ function FormPhonebook({submit, name, number, change}) {
                         required
                         value={number}
                         onChange={change}
+                        placeholder="Your number"
                         />
-                    <button>Add contact</button>
                 </label>
+                <button  className={style.btn} >Add contact</button>
             </form>
         </div>
     )
