@@ -1,9 +1,9 @@
 import React from "react";
 import shortid from "shortid";
 
-import Filter from "components/Filter/Filter";
-import FormPhonebook from "components/FormPhonebook/FormPhonebook";
-import Contacts from "components/Contacts/Contacts";
+import Filter from "components/Filter";
+import FormPhonebook from "components/FormPhonebook";
+import Contacts from "components/Contacts";
 
 import style from './phonebook.module.scss'
 
