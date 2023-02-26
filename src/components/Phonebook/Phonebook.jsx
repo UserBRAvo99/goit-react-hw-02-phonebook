@@ -1,6 +1,9 @@
 import React from "react";
-
 import shortid from "shortid";
+
+import Filter from "components/Filter/Filter";
+import FormPhonebook from "components/FormPhonebook/FormPhonebook";
+import Contacts from "components/Contacts/Contacts";
 
 
 class Phonebook extends React.Component {
@@ -14,64 +17,60 @@ class Phonebook extends React.Component {
     filter: '',
     name: '',
     number: ''
-}
-    inputChange = event => {
-        const {name, value} = event.currentTarget
-        this.setState({[name]: value})
     }
+
+    inputChange = event => {
+        const { name, value } = event.currentTarget
+        this.setState({ [name]: value })
+    }
+
     formOnSubmit = (event) => {
         event.preventDefault()
-        this.state.contacts.unshift({name: this.state.name ,number: this.state.number, id: shortid()})
+
+        if (this.state.contacts.find(elem => elem.name === this.state.name)) {
+            alert(`${this.state.name} is already in contacts`);
+            this.reset();
+            return
+        }
+
+        // this.state.contacts.find(elem => {
+        //     if (elem.name === this.state.name) {
+        //         alert(`${this.state.name} is already in contacts`);
+        //         this.reset();
+        //     } return
+        // });
+
+        const { name, number } = this.state
+        this.state.contacts.unshift({name: name ,number: number, id: shortid()})
         this.reset()
     }
     reset = () => {
         this.setState({name: '',number: ''})
     }
 
+    inputSrc = (event) => {
+        const input = event.currentTarget.value.toLowerCase().trim()
+
+        this.setState({ filter: input })
+
+    }
+    deleteContact = (event) => {
+        let result = this.state.contacts.filter(elem => elem.id !== event.currentTarget.id)
+
+        this.setState({contacts: result})
+    }
+
     render() {
         const contactsData = this.state.contacts
+        const filterData = this.state.filter
         return (
             <div>
-                <div>
-                    <h2>Phonebook</h2>
-                    <form action="#" onSubmit={this.formOnSubmit}>
-                        <label htmlFor="#">
-                            Name
-                            <input
-                                type="text"
-                                name="name"
-                                pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-                                title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-                                required
-                                value={this.state.name}
-                                onChange={this.inputChange}
-                            />
-                            Number
-                            <input
-                                type="tel"
-                                name="number"
-                                pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-                                title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-                                required
-                                value={this.state.number}
-                                onChange={this.inputChange}
-                                />
-                            <button>Add contact</button>
-                        </label>
-                    </form>
-                </div>
+                <h2>Phonebook</h2>
+                <FormPhonebook submit={this.formOnSubmit}  name={this.state.name} number={this.state.number} change={this.inputChange}/>
                 <div>
                     <h2>Contacts</h2>
-                    <ul>
-                        {contactsData.map(({name, number, id}) => {
-                            return (
-                                <li key={shortid()} id={id}>
-                                    <span>{name}</span>
-                                    <span>{number}</span>
-                                </li>
-                            )
-                        })}
-                    </ul>
+                    <Filter filter={this.inputSrc} />
+                    <Contacts contacts={contactsData} filter={filterData} deleteContact={this.deleteContact} />
                 </div>
             </div>
         )
