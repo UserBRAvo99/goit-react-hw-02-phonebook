@@ -1,4 +1,5 @@
 import React from "react";
+
 import shortid from "shortid";
 
 import Filter from "components/Filter";
@@ -19,6 +20,19 @@ class Phonebook extends React.Component {
     filter: '',
     name: '',
     number: ''
+    }
+    
+    componentDidMount() { 
+        let localPhonebook = localStorage.getItem('PHONEBOOK')
+        if (localStorage.getItem('PHONEBOOK')) {
+            return this.setState({contacts:JSON.parse(localPhonebook)})
+        }
+        return this.state
+    }
+
+
+    componentDidUpdate() {
+        localStorage.setItem('PHONEBOOK', JSON.stringify(this.state.contacts))
     }
 
     inputChange = event => {

@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 import style from './formPhonebook.module.scss'
 
@@ -38,6 +39,13 @@ function FormPhonebook({submit, name, number, change}) {
         </div>
     )
 
+}
+
+FormPhonebook.propTypes = {
+    submit: PropTypes.func.isRequired,
+    name: PropTypes.string.isRequired,
+    number: PropTypes.string.isRequired,
+    change: PropTypes.func.isRequired
 }
 
 export default FormPhonebook

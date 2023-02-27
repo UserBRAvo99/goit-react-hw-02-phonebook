@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 import style from './filter.module.scss'
 
@@ -10,6 +11,10 @@ function Filter({filter}) {
                 <input className={style.input} type="text" onInput={filter} />
             </div>
         )
+}
+
+Filter.propTypes = {
+    filter: PropTypes.func.isRequired,
 }
 
 export default Filter
