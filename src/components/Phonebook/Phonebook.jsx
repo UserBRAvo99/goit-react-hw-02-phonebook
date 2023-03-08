@@ -8,14 +8,16 @@ import Contacts from "components/Contacts";
 
 import style from './phonebook.module.scss'
 
+const KEY = 'PHONEBOOK'
+
 
 class Phonebook extends React.Component {
     state = {
     contacts: [
-    // {id: 'id-1', name: 'Rosie Simpson', number: '459-12-56'},
-    // {id: 'id-2', name: 'Hermione Kline', number: '443-89-12'},
-    // {id: 'id-3', name: 'Eden Clements', number: '645-17-79'},
-    // {id: 'id-4', name: 'Annie Copeland', number: '227-91-26'},
+    {id: 'id-1', name: 'Rosie Simpson', number: '459-12-56'},
+    {id: 'id-2', name: 'Hermione Kline', number: '443-89-12'},
+    {id: 'id-3', name: 'Eden Clements', number: '645-17-79'},
+    {id: 'id-4', name: 'Annie Copeland', number: '227-91-26'},
     ],
     filter: '',
     name: '',
@@ -23,22 +25,16 @@ class Phonebook extends React.Component {
     }
     
     componentDidMount() { 
-        console.log('ok');
-    //     let localPhonebook = localStorage.getItem('PHONEBOOK')
-    //     if (localStorage.getItem('PHONEBOOK')) {
-    //         return this.setState({contacts:JSON.parse(localPhonebook)})
-    //     }
-    //     return this.state
+        let localPhonebook = localStorage.getItem(KEY)
+        if (localPhonebook && JSON.parse(localPhonebook).length) {
+             this.setState({contacts:JSON.parse(localPhonebook)})
+        }
     }
 
 
     componentDidUpdate(prevProps, prevState) {
-            // localStorage.setItem('PHONEBOOK', JSON.stringify(this.state.contacts))
-        // if (prevState.contacts.length !== this.state.contacts.length) {
-        //     console.log(123);
-        // }
         if (prevState.contacts.length !== this.state.contacts.length) {
-			localStorage.setItem("USERS_KEY", JSON.stringify(this.state.contacts))
+			localStorage.setItem(KEY, JSON.stringify(this.state.contacts))
 		}
     }
 
@@ -58,7 +54,9 @@ class Phonebook extends React.Component {
 
 
         const { name, number } = this.state
-        this.state.contacts.unshift({name: name ,number: number, id: shortid()})
+        this.setState(prevState =>({
+            contacts: [{name: name ,number: number, id: shortid()},...prevState.contacts ]
+        }))
         this.reset()
     }
     reset = () => {
